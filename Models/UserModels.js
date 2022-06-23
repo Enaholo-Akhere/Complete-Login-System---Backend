@@ -7,6 +7,10 @@ const userSchema = new Schema(
       required: true,
       type: String,
     },
+    dateOfBirth: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -18,6 +22,9 @@ const userSchema = new Schema(
     id: {
       type: String,
     },
+    verified: {
+      type: Boolean
+    }
   },
   { timestamps: true }
 );

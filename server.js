@@ -1,17 +1,23 @@
-const express = require("express");
-const mongoose = require("mongoose");
+const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
-const dotenv = require("dotenv");
-const userRouter = require("./api/User");
-const cors = require("cors");
+const dotenv = require('dotenv');
+const userRouter = require('./api/User');
+const cors = require('cors');
 
 dotenv.config();
 
 //middlewares
-
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+
+
 //port number
 const PORT = process.env.PORT || 8000;
 
@@ -29,7 +35,7 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-app.get("/", (req, res) => {
-  return res.send("send");
+app.get('/', (req, res) => {
+  return res.send('send');
 });
-app.use("/users", userRouter);
+app.use('/users', userRouter);
