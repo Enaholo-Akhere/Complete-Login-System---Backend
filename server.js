@@ -10,13 +10,15 @@ dotenv.config();
 //middlewares
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: [
+      'http://localhost:3000',
+      'https://sunny-madeleine-2d11c6.netlify.app',
+    ],
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 //port number
 const PORT = process.env.PORT || 8000;
