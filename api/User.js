@@ -93,7 +93,7 @@ router.post('/signup', (req, res) => {
 const sendVerificationEmail = ({ _id, email }, res) => {
   console.log(email);
   //url to used in the email
-  const currentUrl = 'http://localhost:5000/';
+  const currentUrl = 'https://enas-tech-savvy.netlify.app/';
   const uniqueString = uuidv4() + _id;
 
   //mail options
