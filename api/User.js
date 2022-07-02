@@ -361,7 +361,7 @@ const sendResetEmail = ({ _id, email }, redirectUrl, res) => {
         to: email,
         subject: 'Password reset',
         html: `<p>We heard you lost your password.</p><p>Use the link below to reset it.</p><p>This link <b>expires in 60 mins</b>.</p><p>Press <a href=${
-          'http://localhost:3000/' + redirectUrl + '/' + _id + '/' + resetString
+          'https://enas-tech-savvy.netlify.app/' + redirectUrl + '/' + _id + '/' + resetString
         }>Here </a> to proceed.</p>`,
       };
 
