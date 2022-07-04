@@ -529,10 +529,40 @@ const resetPassword = (req, res) => {
     });
 }
 
+const deleteAccount = (req, res) => {
+  const {email} = req.body
+
+  // check if user exit on database
+  User.find({email})
+  .then((result)=>{
+    User.findByIdAndDelete({_id: result[0]._id})
+    .then(()=>{
+      res.json({
+        status: 'SUCCESS',
+        message: 'user successfully deleted'
+      })
+    })
+    .catch((error)=>{
+      console.log(error)
+      res.json({
+        status: 'FAILED',
+        message: 'unsuccessful, check your network'
+      })
+    })
+  })
+  .catch((error) =>{
+    console.log(error)
+    res.json({
+      status: 'FAILED',
+      message: 'no user with this email'
+    })
+  })
+}
 module.exports = {
   signup,
   login,
   resetPassword,
   resetPasswordRequest,
   verifyEmail,
+  deleteAccount,
 }

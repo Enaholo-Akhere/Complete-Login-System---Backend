@@ -5,6 +5,7 @@ const {
   resetPassword,
   resetPasswordRequest,
   verifyEmail,
+  deleteAccount,
 } = require('../api/User');
 
 const router = express.Router();
@@ -18,5 +19,7 @@ router.post('/signin', login);
 router.post('/requestpasswordreset', resetPasswordRequest);
 
 router.post('/resetpassword', resetPassword);
+
+router.delete('/deleteaccount', deleteAccount)
 
 module.exports = router;
