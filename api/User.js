@@ -91,7 +91,7 @@ router.post('/signup', (req, res) => {
 
 //send verification email
 const sendVerificationEmail = ({ _id, email }, res) => {
-  console.log(email);
+  console.log(process.env.URL_ENDPOINT);
   //url to used in the email
   const currentUrl = process.env.URL_ENDPOINT;
   const uniqueString = uuidv4() + _id;
