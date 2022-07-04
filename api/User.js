@@ -1,8 +1,6 @@
-const express = require('express');
 const User = require('../Models/UserModels');
 const userVerification = require('../Models/userVerifedModels');
 const PasswordReset = require('../Models/passwordReset');
-const router = express.Router();
 const bcrypt = require('bcrypt');
 const path = require('path');
 const nodemailer = require('nodemailer');
@@ -27,7 +25,7 @@ transporter.verify((err, success) => {
   }
 });
 
-router.post('/signup', (req, res) => {
+const signup = (req, res) => {
   const { name, password, email, dateOfBirth } = req.body;
 
   if (name === '' || password === '' || email === '' || dateOfBirth === '') {
@@ -87,7 +85,7 @@ router.post('/signup', (req, res) => {
         });
       });
   }
-});
+};
 
 //send verification email
 const sendVerificationEmail = ({ _id, email }, res) => {
@@ -152,7 +150,7 @@ const sendVerificationEmail = ({ _id, email }, res) => {
     });
 };
 //verify email
-router.get('/verify/:userId/:uniqueString', (req, res) => {
+const verifyEmail = (req, res) => {
   let { userId, uniqueString } = req.params;
   userVerification
     .find({ userId })
@@ -189,7 +187,7 @@ router.get('/verify/:userId/:uniqueString', (req, res) => {
             });
         } else {
           //valid records exists so we validate the user string
-          //fir compare the hashed unique string
+          //first compare the hashed unique string
           bcrypt
             .compare(uniqueString, hashedUniqueString)
             .then((result) => {
@@ -247,14 +245,11 @@ router.get('/verify/:userId/:uniqueString', (req, res) => {
         'An error occurred while checking for existing user verification records';
       res.redirect(`/users/verified/error=true&message=${message}`);
     });
-});
+};
 
-router.get('/verified', (req, res) => {
-  res.sendFile(path.join(__dirname, '../views/verified.html'));
-});
 
 // login route
-router.post('/signin', (req, res) => {
+const login = (req, res) => {
   const { password, email } = req.body;
   if (password === '' || email === '') {
     res.json({ status: 'FAILED', message: 'Empty credentials supplied' });
@@ -312,10 +307,10 @@ router.post('/signin', (req, res) => {
         });
       });
   }
-});
+};
 
-// password reset rout
-router.post('/requestpasswordreset', (req, res) => {
+// password reset request rout
+const resetPasswordRequest = (req, res) => {
   const { email, redirectUrl } = req.body;
 
   // check if user exist
@@ -346,7 +341,7 @@ router.post('/requestpasswordreset', (req, res) => {
         message: 'An error occurred while checking for existing user',
       });
     });
-});
+};
 
 const sendResetEmail = ({ _id, email }, redirectUrl, res) => {
   const resetString = uuidv4() + _id;
@@ -427,7 +422,7 @@ const sendResetEmail = ({ _id, email }, redirectUrl, res) => {
 };
 
 //reset password route
-router.post('/resetpassword', (req, res) => {
+const resetPassword = (req, res) => {
   let { userId, resetString, newPassword } = req.body;
   console.log(userId);
   PasswordReset.find({ userId })
@@ -532,6 +527,12 @@ router.post('/resetpassword', (req, res) => {
         message: 'Checking for existing password reset failed',
       });
     });
-});
+}
 
-module.exports = router;
+module.exports = {
+  signup,
+  login,
+  resetPassword,
+  resetPasswordRequest,
+  verifyEmail,
+}
