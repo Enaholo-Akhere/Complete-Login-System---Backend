@@ -93,7 +93,7 @@ router.post('/signup', (req, res) => {
 const sendVerificationEmail = ({ _id, email }, res) => {
   console.log(email);
   //url to used in the email
-  const currentUrl = 'https://enas-tech-savvy.netlify.app/';
+  const currentUrl = process.env.URL_ENDPOINT;
   const uniqueString = uuidv4() + _id;
 
   //mail options
@@ -102,7 +102,7 @@ const sendVerificationEmail = ({ _id, email }, res) => {
     to: email,
     subject: 'verify your Email',
     html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${
-      currentUrl + 'users/verify/' + _id + '/' + uniqueString
+      currentUrl + '/users/verify/' + _id + '/' + uniqueString
     }>Here </a> to proceed.</p>`,
   };
   //hash the uniqueString
