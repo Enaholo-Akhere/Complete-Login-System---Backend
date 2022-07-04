@@ -91,7 +91,6 @@ router.post('/signup', (req, res) => {
 
 //send verification email
 const sendVerificationEmail = ({ _id, email }, res) => {
-  console.log(process.env.URL_ENDPOINT);
   //url to used in the email
   const currentUrl = process.env.URL_ENDPOINT;
   const uniqueString = uuidv4() + _id;
@@ -361,7 +360,12 @@ const sendResetEmail = ({ _id, email }, redirectUrl, res) => {
         to: email,
         subject: 'Password reset',
         html: `<p>We heard you lost your password.</p><p>Use the link below to reset it.</p><p>This link <b>expires in 60 mins</b>.</p><p>Press <a href=${
-          'https://enas-tech-savvy.netlify.app/' + redirectUrl + '/' + _id + '/' + resetString
+          'https://enas-tech-savvy.netlify.app/' +
+          redirectUrl +
+          '/' +
+          _id +
+          '/' +
+          resetString
         }>Here </a> to proceed.</p>`,
       };
 
