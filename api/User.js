@@ -247,7 +247,6 @@ const verifyEmail = (req, res) => {
     });
 };
 
-
 // login route
 const login = (req, res) => {
   const { password, email } = req.body;
@@ -264,7 +263,7 @@ const login = (req, res) => {
           if (!data[0].verified) {
             res.json({
               status: 'FAILED',
-              message: 'Email has not been verified yet, check your inbox!',
+              message: 'Email has not been verified check inbox',
             });
           } else {
             const hashedPassword = data[0].password;
@@ -527,37 +526,37 @@ const resetPassword = (req, res) => {
         message: 'Checking for existing password reset failed',
       });
     });
-}
+};
 
 const deleteAccount = (req, res) => {
-  const {email} = req.body
+  let { email } = req.body;
 
   // check if user exit on database
-  User.find({email})
-  .then((result)=>{
-    User.findByIdAndDelete({_id: result[0]._id})
-    .then(()=>{
-      res.json({
-        status: 'SUCCESS',
-        message: 'user successfully deleted'
-      })
+  User.find({ email })
+    .then((result) => {
+      User.findByIdAndDelete({ _id: result[0]._id })
+        .then(() => {
+          res.json({
+            status: 'SUCCESS',
+            message: 'user successfully deleted',
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.json({
+            status: 'FAILED',
+            message: 'unsuccessful, check your network',
+          });
+        });
     })
-    .catch((error)=>{
-      console.log(error)
+    .catch((error) => {
+      console.log(error);
       res.json({
         status: 'FAILED',
-        message: 'unsuccessful, check your network'
-      })
-    })
-  })
-  .catch((error) =>{
-    console.log(error)
-    res.json({
-      status: 'FAILED',
-      message: 'no user with this email'
-    })
-  })
-}
+        message: 'no user with this email',
+      });
+    });
+};
 module.exports = {
   signup,
   login,
@@ -565,4 +564,4 @@ module.exports = {
   resetPasswordRequest,
   verifyEmail,
   deleteAccount,
-}
+};
