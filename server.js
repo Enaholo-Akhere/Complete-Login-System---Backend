@@ -10,10 +10,7 @@ dotenv.config();
 //middlewares
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'https://enas-tech-savvy.netlify.app',
-    ],
+    origin: ['http://localhost:3000', 'https://enas-tech-savvy.netlify.app'],
     credentials: true,
   })
 );
