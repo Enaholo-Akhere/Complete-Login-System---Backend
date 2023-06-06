@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //port number
 const PORT = process.env.PORT || 8000;
+console.log('env', app.get('env'));
 
 //connecting the database
 mongoose
