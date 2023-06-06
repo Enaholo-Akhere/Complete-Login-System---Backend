@@ -96,7 +96,8 @@ const sendVerificationEmail = ({ _id, email }, res) => {
       ? process.env.URL_ENDPOINT_PROD
       : process.env.URL_ENDPOINT_DEV;
   const uniqueString = uuidv4() + _id;
-  console.log('currentUrl line 99', currentUrl);
+  console.log('currentUrl line 99', process.env.NODE_ENV);
+  console.log('currentUrl line 100', process.env.URL_ENDPOINT_PROD);
 
   //mail options
   const mailOptions = {
