@@ -155,8 +155,6 @@ const sendVerificationEmail = ({ _id, email }, res) => {
       });
     });
 };
-
-sendVerificationEmail({ _id: '123345505', email: 'enaholoa@gmail.com' }, {});
 //verify email
 const verifyEmail = (req, res) => {
   let { userId, uniqueString } = req.params;
