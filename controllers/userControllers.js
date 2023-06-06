@@ -20,6 +20,6 @@ router.post('/requestpasswordreset', resetPasswordRequest);
 
 router.post('/resetpassword', resetPassword);
 
-router.delete('/deleteaccount', deleteAccount)
+router.delete('/deleteaccount', deleteAccount);
 
 module.exports = router;
