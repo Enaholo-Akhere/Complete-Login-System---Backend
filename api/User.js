@@ -90,8 +90,13 @@ const signup = (req, res) => {
 //send verification email
 const sendVerificationEmail = ({ _id, email }, res) => {
   //url to used in the email
-  const currentUrl = process.env.URL_ENDPOINT;
+
+  const currentUrl =
+    process.env.NONE_ENV === undefined
+      ? process.env.URL_ENDPOINT_DEV
+      : process.env.URL_ENDPOINT_PROD;
   const uniqueString = uuidv4() + _id;
+  console.log('currentUrl', currentUrl);
 
   //mail options
   const mailOptions = {
@@ -99,7 +104,7 @@ const sendVerificationEmail = ({ _id, email }, res) => {
     to: email,
     subject: 'verify your Email',
     html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${
-      currentUrl + '/users/verify/' + _id + '/' + uniqueString
+      currentUrl + _id + '/' + uniqueString
     }>Here </a> to proceed.</p>`,
   };
   //hash the uniqueString
@@ -168,14 +173,18 @@ const verifyEmail = (req, res) => {
               User.deleteOne({ _id: userId })
                 .then(() => {
                   let message = 'Link has expired please signup again ';
-                  res.redirect(`/users/verified/error=true&message=${message}`);
+                  res.redirect(
+                    `/users/verified/?error=true&message=${message}`
+                  );
                 })
                 .catch((error) => {
                   console.log(error);
 
                   let message =
                     'Clearing user with expired unique string failed';
-                  res.redirect(`/users/verified/error=true&message=${message}`);
+                  res.redirect(
+                    `/users/verified/?error=true&message=${message}`
+                  );
                 });
             })
             .catch((error) => {
@@ -183,7 +192,7 @@ const verifyEmail = (req, res) => {
 
               let message =
                 'An error occurred while clearing user verification records';
-              res.redirect(`/users/verified/error=true&message=${message}`);
+              res.redirect(`/users/verified/?error=true&message=${message}`);
             });
         } else {
           //valid records exists so we validate the user string
