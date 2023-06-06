@@ -91,13 +91,8 @@ const signup = (req, res) => {
 const sendVerificationEmail = ({ _id, email }, res) => {
   //url to used in the email
 
-  const currentUrl =
-    process.env.NODE_ENV === undefined
-      ? process.env.URL_ENDPOINT_DEV
-      : process.env.URL_ENDPOINT_PROD;
+  const currentUrl = process.env.URL_ENDPOINT_PROD;
   const uniqueString = uuidv4() + _id;
-  console.log('type off 99', typeof process.env.NODE_ENV);
-  console.log('currentUrl line 100', currentUrl);
 
   //mail options
   const mailOptions = {
