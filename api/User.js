@@ -92,11 +92,11 @@ const sendVerificationEmail = ({ _id, email }, res) => {
   //url to used in the email
 
   const currentUrl =
-    process.env.NONE_ENV === undefined
+    process.env.NODE_ENV === undefined
       ? process.env.URL_ENDPOINT_DEV
       : process.env.URL_ENDPOINT_PROD;
   const uniqueString = uuidv4() + _id;
-  console.log('currentUrl', currentUrl);
+  console.log('currentUrl line 99', currentUrl);
 
   //mail options
   const mailOptions = {
