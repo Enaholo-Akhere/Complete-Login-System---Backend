@@ -90,21 +90,19 @@ const signup = (req, res) => {
 //send verification email
 const sendVerificationEmail = ({ _id, email }, res) => {
   //url to used in the email
+  const uniqueString = uuidv4() + _id;
 
   const currentUrl =
     process.env.NODE_ENV === undefined
-      ? 'http://localhost:3000/verified'
-      : 'https://enas-tech-savvy.netlify.app/verified';
-  const uniqueString = uuidv4() + _id;
+      ? `http://localhost:3000/verified?id=${_id}&uniqueString=${uniqueString}`
+      : `https://enas-tech-savvy.netlify.app/verified?id=${_id}&uniqueString=${uniqueString}`;
 
   //mail options
   const mailOptions = {
     from: process.env.AUTH_EMAIL,
     to: email,
     subject: 'verify your Email',
-    html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${
-      currentUrl + _id + '/' + uniqueString
-    }>Here </a> to proceed.</p>`,
+    html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${currentUrl}>Here </a> to proceed.</p>`,
   };
   //hash the uniqueString
   const salt = 10;
