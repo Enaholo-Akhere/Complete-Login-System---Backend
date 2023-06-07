@@ -170,18 +170,18 @@ const verifyEmail = (req, res) => {
               User.deleteOne({ _id: userId })
                 .then(() => {
                   let message = 'Link has expired please signup again ';
-                  res.redirect(
-                    `/users/verified/?error=true&message=${message}`
-                  );
+                  res.json({
+                    message,
+                    success: true,
+                  });
                 })
                 .catch((error) => {
                   console.log(error);
 
-                  let message =
-                    'Clearing user with expired unique string failed';
-                  res.redirect(
-                    `/users/verified/?error=true&message=${message}`
-                  );
+                  res.json({
+                    message: 'email verification failed',
+                    success: false,
+                  });
                 });
             })
             .catch((error) => {
@@ -189,7 +189,10 @@ const verifyEmail = (req, res) => {
 
               let message =
                 'An error occurred while clearing user verification records';
-              res.redirect(`/users/verified/?error=true&message=${message}`);
+              res.json({
+                message,
+                success: false,
+              });
             });
         } else {
           //valid records exists so we validate the user string
@@ -203,16 +206,18 @@ const verifyEmail = (req, res) => {
                     userVerification
                       .deleteOne({ userId })
                       .then(() => {
-                        res.sendFile(
-                          path.join(__dirname, '../views/verified.html')
-                        );
+                        res.json({
+                          message: 'email verified successfully',
+                          success: true,
+                        });
                       })
                       .catch((error) => {
                         let message =
                           'An error occurred while finalizing successful verification';
-                        res.redirect(
-                          `/users/verified/error=true&message=${message}`
-                        );
+                        res.json({
+                          message,
+                          success: false,
+                        });
                       });
                   })
                   .catch((error) => {
@@ -220,36 +225,52 @@ const verifyEmail = (req, res) => {
 
                     let message =
                       'An error occurred while updating user records to show verified';
-                    res.redirect(
-                      `/users/verified/error=true&message=${message}`
-                    );
+                    res.json({
+                      message,
+                      success: false,
+                    });
                   });
               } else {
                 // existing records but incorrect verification
                 let message =
                   'Invalid verification details passed please check your inbox';
-                res.redirect(`/users/verified/error=true&message=${message}`);
+                res.json({
+                  message,
+                  success: false,
+                });
               }
             })
             .catch((error) => {
               console.log(error);
 
               let message = 'An error occurred while comparing unique strings.';
-              res.redirect(`/users/verified/error=true&message=${message}`);
+              res.json({
+                message,
+                success: false,
+              });
             });
         }
       } else {
         //user records does not exist
-        let message =
-          'Account record does not exist or has been verified already, Please sign up or login';
-        res.redirect(`/users/verified/error=true&message=${message}`);
+        let message = `<p>
+            Account record does not exist or has been verified already, Please
+            <a href='http://localhost:3000/signup'>sign up</a>${' '} or ${' '}
+            <a href='http://localhost:3000/signin'>login</a>
+          </p>`;
+        res.json({
+          message,
+          success: false,
+        });
       }
     })
     .catch((err) => {
       console.log(err);
       let message =
         'An error occurred while checking for existing user verification records';
-      res.redirect(`/users/verified/error=true&message=${message}`);
+      res.json({
+        message,
+        success: false,
+      });
     });
 };
 
