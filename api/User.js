@@ -92,10 +92,7 @@ const sendVerificationEmail = ({ _id, email }, res) => {
   //url to used in the email
   const uniqueString = uuidv4() + _id;
 
-  const currentUrl =
-    process.env.NODE_ENV === undefined
-      ? `http://localhost:3000/verified?id=${_id}&uniqueString=${uniqueString}`
-      : `https://enas-tech-savvy.netlify.app/verified?id=${_id}&uniqueString=${uniqueString}`;
+  const currentUrl = `https://enas-tech-savvy.netlify.app/verified?id=${_id}&uniqueString=${uniqueString}`;
 
   //mail options
   const mailOptions = {
