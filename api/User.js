@@ -251,8 +251,8 @@ const verifyEmail = (req, res) => {
         //user records does not exist
         let message = `<p>
             Account record does not exist or has been verified already, Please
-            <a href='http://localhost:3000/signup'>sign up</a>${' '} or ${' '}
-            <a href='http://localhost:3000/signin'>login</a>
+            <a href='https://enas-tech-savvy.netlify.app/signup'>sign up</a>${' '} or ${' '}
+            <a href='https://enas-tech-savvy.netlify.app/signin'>login</a>
           </p>`;
         res.json({
           message,
